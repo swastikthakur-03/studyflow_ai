@@ -1,0 +1,41 @@
+# ── Environment ──────────────────────────────────────────────
+.env
+.env.local
+.env.production
+
+# ── Python ───────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# ── Node / Next.js ────────────────────────────────────────────
+node_modules/
+.next/
+out/
+*.tsbuildinfo
+.vercel
+
+# ── Uploads ───────────────────────────────────────────────────
+uploads/*.pdf
+uploads/*.txt
+
+# ── Databases ────────────────────────────────────────────────
+*.sqlite
+*.db
+
+# ── OS ───────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+
+# ── IDE ───────────────────────────────────────────────────────
+.vscode/settings.json
+.idea/
+*.swp
