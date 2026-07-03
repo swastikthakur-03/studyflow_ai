@@ -27,12 +27,14 @@ def chat_message(
     Send a question and receive an AI-generated answer with source citations.
     Optionally scope to a specific document with document_id.
     """
+
     # Verify document belongs to user if specified
     if payload.document_id:
         doc = db.query(Document).filter(
             Document.id == payload.document_id,
             Document.user_id == current_user.id,
         ).first()
+
         if not doc:
             raise HTTPException(status_code=404, detail="Document not found")
 
@@ -41,11 +43,11 @@ def chat_message(
 
     history = [m.model_dump() for m in (payload.conversation_history or [])]
 
-    try:
-        result = answer_question(
-            user_id=current_user.id,
-            question=payload.question,
-            document_id=payload.document_id,
-            conversation_history=history,
-        )
-        return ChatResponse(**result)
+    result = answer_question(
+        user_id=current_user.id,
+        question=payload.question,
+        document_id=payload.document_id,
+        conversation_history=history,
+    )
+
+    return ChatResponse(**result)
