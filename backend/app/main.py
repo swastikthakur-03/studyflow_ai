@@ -39,12 +39,6 @@ app.mount("/uploads", StaticFiles(directory=settings.UPLOAD_DIR), name="uploads"
 # Register routers
 app.include_router(api_router, prefix="/api/v1")
 
-# Debug: print all registered routes
-print("===================================")
-for route in app.routes:
-    print(route.path)
-print("===================================")
-
 # Health endpoint
 @app.get("/health", tags=["System"])
 async def health_check():
