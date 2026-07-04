@@ -32,35 +32,51 @@ export function useDocuments() {
     fetchDocuments();
   }, [fetchDocuments]);
 
-  async function uploadDocument(file: File): Promise<Document | null> {
+  async function uploadDocument(file: File): Promise<void> {
     setUploading(true);
+
     const formData = new FormData();
     formData.append("file", file);
 
     try {
-      const { data } = await api.post<Document>("/documents/upload", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      const { data } = await api.post<Document>(
+        "/documents/upload",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
       setDocuments((prev) => [data, ...prev]);
+
       toast.success(`"${file.name}" uploaded and processed successfully`);
-      return data;
     } catch (error) {
       toast.error(getErrorMessage(error));
-      return null;
     } finally {
       setUploading(false);
     }
   }
 
-  async function deleteDocument(id: number) {
+  async function deleteDocument(id: number): Promise<void> {
     try {
       await api.delete(`/documents/${id}`);
+
       setDocuments((prev) => prev.filter((d) => d.id !== id));
+
       toast.success("Document deleted");
     } catch (error) {
       toast.error(getErrorMessage(error));
     }
   }
 
-  return { documents, loading, uploading, uploadDocument, deleteDocument, refetch: fetchDocuments };
+  return {
+    documents,
+    loading,
+    uploading,
+    uploadDocument,
+    deleteDocument,
+    refetch: fetchDocuments,
+  };
 }
