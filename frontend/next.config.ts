@@ -1,16 +1,28 @@
 import type { NextConfig } from "next";
 
+const API_URL =
+  process.env.NEXT_PUBLIC_API_URL ||
+  "https://wholesome-victory-production.up.railway.app";
+
 const nextConfig: NextConfig = {
-  // Allow images from the backend
   images: {
-    domains: ["localhost"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "**",
+      },
+      {
+        protocol: "http",
+        hostname: "localhost",
+      },
+    ],
   },
-  // Proxy /api calls to FastAPI backend in development
+
   async rewrites() {
     return [
       {
         source: "/api/:path*",
-        destination: `${process.env.NEXT_PUBLIC_API_URL}/api/:path*`,
+        destination: `${API_URL}/api/:path*`,
       },
     ];
   },
